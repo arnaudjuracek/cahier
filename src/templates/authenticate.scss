@@ -1,0 +1,21 @@
+body[data-template=authenticate] {
+  main {
+    padding-top: calc(var(--font-size) * var(--line-height) + var(--gutter));
+  }
+
+  label {
+    display: block;
+    font-size: var(--font-size--small);
+    margin-bottom: 0.5em;
+  }
+
+  input[type=password] {
+    @include reset-button;
+    color: var(--color--text);
+    background-color: white;
+    padding: calc(0.5 * var(--gutter)) var(--gutter);
+    border: 1px solid var(--color--border);
+
+    &:focus { outline: 0; }
+  }
+}

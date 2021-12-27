@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>{{ plaintext title }}</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui' />
+  {{#if isProduction}}
+  <link rel='stylesheet' href='/bundle.css'>
+  {{/if}}
+</head>
+<body data-template='directory'>
+  <main>
+    <h1>{{ title }}</h1>
+    <ul class='entries'>
+      {{#each entries}}
+      <li class='{{#if this.isDirectory}}is-directory{{/if}} {{#if this.isLocked}}is-locked{{/if}}'>
+        <a href='{{ this.url }}' title='{{ this.name }}'>{{ plaintext this.title }}</a>
+      </li>
+      {{/each}}
+    </ul>
+  </main>
+  <script src='/bundle.js'></script>
+</body>
+</html>

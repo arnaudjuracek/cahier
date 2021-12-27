@@ -1,0 +1,185 @@
+*:target,
+::selection {
+  background: var(--color--highlight);
+}
+
+a {
+  color: blue;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 2em 0 1em;
+  padding-right: var(--gutter);
+}
+
+table, img, ul, ol, p, pre, blockquote {
+  margin: 1em 0;
+}
+
+sub, sup {
+  position: relative;
+  font-size: small;
+}
+
+sub {
+  bottom: -0.25em;
+  left: 0.25em;
+}
+
+sup {
+  top: -0.5em;
+  left: 0.25em;
+}
+
+mark {
+  background: var(--color--highlight);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--color--border);
+  margin: calc(3 * var(--gutter)) 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 2em auto;
+  vertical-align: bottom;
+}
+
+blockquote {
+  background: var(--color--background);
+  padding-left: 1em;
+  border-left: 0.25em solid var(--color--border);
+}
+
+h1 { line-height: var(--line-height--h1); }
+h2 { line-height: var(--line-height--h2); }
+h3 { line-height: var(--line-height--h3); }
+h4 { line-height: var(--line-height--h4); }
+h5 { line-height: var(--line-height--h5); }
+h6 { line-height: var(--line-height--h6); }
+
+code, pre {
+  user-select: all;
+  font-family: var(--font-family--monospace);
+}
+
+code {
+  font-size: 72%;
+  vertical-align: 0.1em;
+  padding: 0.15em 0.4em 0.25em;
+  border-radius: 3px;
+  background: var(--color--border);
+}
+
+pre {
+  position: relative;
+  width: 100%;
+  border-radius: 5px;
+  color: var(--color--background);
+  background: var(--color--text);
+  line-height: 1.7;
+
+  code {
+    @include invisible-scroll;
+    display: block;
+    padding: var(--gutter);
+    color: inherit;
+    background: none;
+    user-select: auto;
+  }
+
+  // Display highlighted language if any
+  code[class]::after {
+    content: attr(class);
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.15em 0.5em;
+    font-variant: small-caps;
+
+    @include mobile {
+      display: none;
+    }
+  }
+}
+
+table {
+  width: 100%;
+}
+
+table, th, td {
+  border: 1px solid;
+  border-collapse: collapse;
+  padding: 1rem;
+}
+
+td {
+  @include easing(120ms, background);
+}
+
+tr:hover td {
+  background: var(--color--highlight);
+}
+
+ol, ul {
+  padding-left: calc(2 * var(--gutter));
+}
+
+li ol,
+li ul,
+li p { margin: 0; }
+
+
+// Markdown specific
+
+h1, h2, h3, h4, h5, h6 {
+  position: relative;
+  scroll-margin-top: 1em;
+
+  .anchor {
+    @include easing(120ms, opacity);
+    position: absolute;
+    margin-left: 0.25em;
+    text-decoration: none;
+
+    opacity: 0;
+    color: var(--color--border);
+  }
+
+  .anchor:focus,
+  &:hover .anchor {
+    opacity: 1;
+    outline: 0;
+  }
+}
+
+.footnote-backref,
+.footnote-ref a {
+  text-decoration: none !important;
+}
+
+hr.footnotes-sep {
+  margin: 10rem 0 calc(2 * var(--gutter)) 0;
+}
+
+ol.footnotes-list {
+  padding: 0;
+  list-style-position: inside;
+  font-size: var(--font-size--small);
+
+  li p {
+    margin-left: 2ch;
+    &:first-child {
+      display: inline-block;
+      margin-left: 0;
+    }
+  }
+}

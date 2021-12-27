@@ -1,0 +1,41 @@
+@import 'sass/helpers';
+
+$max-width: 800px;
+@mixin mobile {
+  @media screen and (max-width: 600px) { @content; }
+}
+
+:root {
+  --gutter: 2rem;
+  --max-width: #{$max-width};
+
+  --font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family--monospace: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  --font-size: 2.2rem;
+  --font-size--small: 1.6rem;
+
+  --line-height: 1.4;
+  --line-height--h1: 1.1;
+  --line-height--h2: 1.2;
+  --line-height--h3: 1.3;
+  --line-height--h4: 1.3;
+  --line-height--h5: 1.4;
+  --line-height--h6: 1.4;
+
+  --color--background: #F7F7F7;
+  --color--highlight: #FFEC3D66;
+  --color--border: #D8DEE4;
+  --color--text: #191919;
+
+  @include mobile {
+    --gutter: 1rem;
+    --font-size: 1.8rem;
+  }
+}
+
+@import 'sass/base';
+@import 'sass/markdown';
+
+@import 'templates/authenticate';
+@import 'templates/directory';
+@import 'templates/markdown-file';

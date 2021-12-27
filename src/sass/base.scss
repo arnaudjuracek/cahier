@@ -1,0 +1,56 @@
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after { box-sizing: inherit; }
+
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  color: var(--color--text);
+  background: var(--color--background);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+
+  overscroll-behavior: none;
+  @include mobile {
+    overscroll-behavior: auto;
+  }
+}
+
+main {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--gutter);
+  overflow-wrap: break-word;
+
+  @include mobile {
+    padding: var(--gutter) calc(2 * var(--gutter));
+  }
+}
+
+#go-parent, #go-top {
+  @include easing(120ms, color);
+  text-decoration: none;
+  &:not(:hover) {
+    color: var(--color--border);
+  }
+}
+
+#go-top {
+  float: right;
+  margin-bottom: var(--gutter);
+}
