@@ -26,6 +26,7 @@ $max-width: 800px;
   --color--highlight: #FFEC3D66;
   --color--border: #D8DEE4;
   --color--text: #191919;
+  --color--dim: #{rgba(#191919, 0.2)};
 
   @include mobile {
     --gutter: 1rem;

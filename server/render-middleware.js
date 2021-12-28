@@ -2,9 +2,11 @@ const fs = require('fs-extra')
 const path = require('path')
 const parseurl = require('parseurl')
 const { decode } = require('html-entities')
+const moment = require('moment')
 
 require('handlebars').registerHelper({
-  plaintext: string => string ? decode(string.replace(/(<([^>]+)>)/ig, '')) : string
+  plaintext: string => string ? decode(string.replace(/(<([^>]+)>)/ig, '')) : string,
+  date: (isoString, format = '') => isoString && moment(isoString).format(typeof format === 'string' ? format : '')
 })
 
 const render = {

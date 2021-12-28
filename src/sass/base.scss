@@ -42,11 +42,24 @@ main {
   }
 }
 
+header[role=main] {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size--small);
+  align-items: center;
+  color: var(--color--dim);
+
+  time {
+    font-family: var(--font-family--monospace);
+  }
+}
+
 #go-parent, #go-top {
   @include easing(120ms, color);
   text-decoration: none;
+  font-size: var(--font-size);
   &:not(:hover) {
-    color: var(--color--border);
+    color: var(--color--dim);
   }
 }
 

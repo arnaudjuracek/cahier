@@ -11,7 +11,10 @@
 </head>
 <body data-template='markdown-file'>
   <main>
-    <a id='go-parent' href='.' title='Go to parent'>↵</a>
+    <header role='main'>
+      <a id='go-parent' href='.' title='Go to parent'>↵</a>
+      <time datetime='{{ modified }}'>{{ date modified 'YYYY-MM-DD' }}</time>
+    </header>
     {{{ markdown }}}
     <a id='go-top' href='#' title='Go up'>↑</a>
   </main>
