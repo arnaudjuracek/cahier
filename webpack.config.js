@@ -1,3 +1,4 @@
+
 const path = require('path')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -20,6 +21,8 @@ module.exports = {
   resolve: {
     alias: {
       components: path.join(__dirname, 'src', 'components'),
+      controllers: path.join(__dirname, 'src', 'controllers'),
+      store: path.join(__dirname, 'src', 'store'),
       utils: path.join(__dirname, 'src', 'utils')
     }
   },

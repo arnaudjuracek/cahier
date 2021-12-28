@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 
+const fs = require('fs-extra')
 const http = require('http')
 const path = require('path')
 const express = require('express')
 const dotenv = require('dotenv')
+const parseurl = require('parseurl')
 const session = require('express-session')
-// const WebSocket = require('ws') // TODO[ws]
+const WebSocket = require('ws')
 
 dotenv.config({ path: path.resolve(__dirname, '.env') })
 
 const app = express()
 const server = http.createServer(app)
-// const wss = new WebSocket.Server({ noServer: true })
+const wss = new WebSocket.Server({ noServer: true })
 const sessionParser = session({
   saveUninitialized: true,
   secret: process.env.PASSWORD,
@@ -67,20 +69,40 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message })
 })
 
-// Websocket authentication handling
-// server.on('upgrade', (request, socket, head) => {
-//   sessionParser(request, {}, () => {
-//     if (!request.session.authenticated) {
-//       socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n')
-//       socket.destroy()
-//       return
-//     }
+// Websocket
+wss.on('connection', async (ws, req) => {
+  const url = parseurl.original(req)
+  const logFile = path.join(__dirname, process.env.CONTENT, url.path + '.log')
+  await fs.ensureFile(logFile)
 
-//     wss.handleUpgrade(request, socket, head, ws => {
-//       wss.emit('connection', ws, request)
-//     })
-//   })
-// })
+  ws.on('message', async message => {
+    const entry = JSON.parse(message.toString())
+    const context = entry.context
+    delete entry.context
+
+    const log = await fs.readJson(logFile, { throws: false }) || {}
+    log[context] = [...(log[context] || []), entry]
+
+    await fs.writeJson(logFile, log, { spaces: '  ' })
+    for (const client of wss.clients) client.send(JSON.stringify(log))
+  })
+})
+
+// Websocket authentication handling
+server.on('upgrade', (req, socket, head) => {
+  sessionParser(req, {}, () => {
+    const url = parseurl.original(req)
+    if (!req.session.allowed || !req.session.allowed.find(path => path === url.path)) {
+      socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n')
+      socket.destroy()
+      return
+    }
+
+    wss.handleUpgrade(req, socket, head, ws => {
+      wss.emit('connection', ws, req)
+    })
+  })
+})
 
 // Server startup
 server.listen(process.env.PORT, () => {

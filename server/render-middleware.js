@@ -12,7 +12,7 @@ require('handlebars').registerHelper({
 const render = {
   authenticate: require('./templates/authenticate'),
   directory: require('./templates/directory'),
-  file: require('./templates/markdown-file')
+  document: require('./templates/document')
 }
 
 module.exports = async (req, res, next) => {
@@ -36,7 +36,10 @@ module.exports = async (req, res, next) => {
   // Check if resource can be accessed
   const allowed = !challenge || auth(req, challenge)
 
-  // TODO[ws]: allow/reject websocket based on `allowed`, possibly via req.session
+  // Keep track of allowed accesses in session
+  if (allowed) {
+    req.session.allowed = Array.from(new Set([...(req.session.allowed || []), url.path]))
+  }
 
   // PRG pattern, see https://en.wikipedia.org/wiki/Post/Redirect/Get
   if (req.method === 'POST' && allowed) return res.redirect(url.href)
@@ -44,7 +47,7 @@ module.exports = async (req, res, next) => {
   // Render and send HTML
   res.send(await render[
     allowed
-      ? (stat.isDirectory() ? 'directory' : 'file')
+      ? (stat.isDirectory() ? 'directory' : 'document')
       : 'authenticate'
   ](resource, url))
   next()
@@ -65,7 +68,7 @@ function auth (req, challenge) {
   }
 }
 
-// Given a path, find the first file matchin an array of extension, then
+// Given a path, find the first file matching an array of extension, then
 // fallback to a possible directory
 async function findResource (path, extensions = process.env.EXTENSIONS.split(',')) {
   if (await fs.pathExists(path)) return path

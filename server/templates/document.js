@@ -2,7 +2,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const template = require('handlebars').compile(
   fs.readFileSync(
-    path.join(__dirname, '..', '..', 'src', 'templates', 'markdown-file.hbs'),
+    path.join(__dirname, '..', '..', 'src', 'templates', 'document.hbs'),
     'utf8'
   )
 )
@@ -31,9 +31,10 @@ const Markdown = require('markdown-it')({
 
 module.exports = async (resource, url) => {
   const file = await fs.readFile(resource, 'utf8')
-  const html = template({
+  let html = template({
     title: (file.match(/^#\s(.*)$/m) || [])[1] || path.basename(resource, path.extname(resource)),
     isProduction: process.env.NODE_ENV !== 'development',
+    modified: (await fs.stat(resource)).mtime,
     markdown: Markdown.render(file
       // Widont on headings
       .replace(/^(#{1,6}\s.*) +(\W+)$/gmi, '$1&nbsp;$2')
@@ -41,8 +42,28 @@ module.exports = async (resource, url) => {
     )
   })
 
-  return html
+  html = html
     // Always render sup/sub inline when this is the only element on the line
     .replace(/<p>(<sup>.*<\/sup>)<\/p>/gi, '$1')
     .replace(/<p>(<sub>.*<\/sub>)<\/p>/gi, '$1')
+    // Ensure [[discuss]] is not wrapped inside a <p>
+    .replace(/<p>(\[\[\s?discuss(:\w+)?\s?(readonly)?\s\]\])<\/p>/gi, '$1')
+
+  // Replace [[discuss]] by an HTML container for its jsx Component
+  const logFile = resource.replace(path.extname(resource), '.log')
+  const log = (await fs.pathExists(logFile)) && (await fs.readJson(logFile, { throws: false }))
+  for (const discuss of html.match(/(\[\[\s?discuss.*\]\])/g) || []) {
+    const context = (discuss.match(/:([\w-]+)/) || [])[1] || 'log'
+    const readonly = /readonly\s\]\]/.test(discuss)
+    html = html.replace(discuss, `
+      <script
+        type='application/json'
+        class='discuss-data'
+        data-context='${context}'
+        ${readonly ? 'readonly' : ''}
+      >${JSON.stringify((log && log[context]) || [])}</script>
+    `)
+  }
+
+  return html
 }

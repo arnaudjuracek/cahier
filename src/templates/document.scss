@@ -1,0 +1,27 @@
+body[data-template=document] {
+  header[role=main] {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size--small);
+    align-items: center;
+    color: var(--color--dim);
+  }
+
+  header[role=main] time {
+    font-family: var(--font-family--monospace);
+  }
+
+  #go-parent, #go-top {
+    @include easing(120ms, color);
+    text-decoration: none;
+    font-size: var(--font-size);
+    &:not(:hover) {
+      color: var(--color--dim);
+    }
+  }
+
+  #go-top {
+    float: right;
+    margin-bottom: var(--gutter);
+  }
+}
