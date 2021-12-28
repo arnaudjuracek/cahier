@@ -53,6 +53,7 @@ if (process.env.NODE_ENV === 'development') {
 // Serve static files
 const highlightTheme = require.resolve('highlight.js/styles/github-dark.css')
 app.use(express.static(path.join(__dirname, '..', 'build')))
+app.use(express.static(path.join(__dirname, '..', 'static')))
 app.get('/highlight.css', (_, res) => res.sendFile(highlightTheme))
 app.use((req, res, next) => /\.(md|lock)$/.test(req.baseUrl)
   ? next()
