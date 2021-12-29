@@ -1,15 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html {{#if lang}}lang='{{ lang }}'{{/if}}>
 <head>
   <meta charset='utf-8'>
-  <title>{{ plaintext title }}</title>
+  <title>
+    {{#if title}}
+      {{ plaintext title }}
+    {{else}}
+      {{ filename }}{{ extension }}
+    {{/if}}
+  </title>
+
+  {{#if description}}
+  <meta name='description' content='{{ plaintext description }}'>
+  {{/if}}
+
+  {{#if icon}}
+  <link rel='icon' href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>{{ icon }}</text></svg>'>
+  {{else}}
   <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  {{/if}}
+
   <link rel="manifest" href="/site.webmanifest">
-  <meta name="theme-color" content="#ffffff">
   <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui' />
   <link rel='stylesheet' href='/highlight.css'>
+
   {{#if isProduction}}
   <link rel='stylesheet' href='/bundle.css'>
   {{/if}}
@@ -17,8 +33,8 @@
 <body data-template='document'>
   <main>
     <header role='main'>
-      <a id='go-parent' href='.' title='Go to parent'>↵</a>
-      <time datetime='{{ modified }}'>{{ date modified 'YYYY-MM-DD' }}</time>
+      <a id='go-parent' href='.' title='Go to parent'>{{ dirname }}</a>
+      <time datetime='{{ lastmod }}'>{{ date lastmod 'YYYY-MM-DD' }}</time>
     </header>
     {{{ markdown }}}
     <a id='go-top' href='#' title='Go up'>↑</a>

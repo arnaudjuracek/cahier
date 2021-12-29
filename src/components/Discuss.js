@@ -1,6 +1,6 @@
 import { Component } from 'utils/jsx'
 import { writable } from 'utils/state'
-import Websocket from 'reconnectingwebsocket'
+import WebSocket from 'reconnectingwebsocket'
 import sanitize from 'sanitize-html'
 import linkify from 'linkify-html'
 
@@ -14,7 +14,7 @@ const WebSocketServer = ({
     this.socket.send(JSON.stringify(object))
   },
   open: function () {
-    this.socket = new Websocket(window.location.href.replace('http', 'ws'))
+    this.socket = new WebSocket(window.location.href.replace('http', 'ws'))
     this.socket.onopen = () => this.isClosed.set(false)
     this.socket.onclose = () => this.isClosed.set(true)
     this.socket.onmessage = message => {
@@ -29,6 +29,21 @@ const WebSocketServer = ({
   }
 }).open()
 
+const I18n = {
+  fr: {
+    'author.placeholder': 'Nom',
+    'author.edit': 'Éditer le nom',
+    'author.default': 'Nouveau nom',
+    'textarea.placeholder': 'message…'
+  },
+  en: {
+    'author.placeholder': 'Name',
+    'author.edit': 'Edit name',
+    'author.default': 'New name',
+    'textarea.placeholder': 'message…'
+  }
+}
+
 export default class Discuss extends Component {
   beforeRender (props) {
     this.update = this.update.bind(this)
@@ -38,11 +53,12 @@ export default class Discuss extends Component {
     this.handleServer = this.handleServer.bind(this)
 
     this.state = {
+      lang: props.lang || 'en',
       entries: writable(props.entries || [])
     }
   }
 
-  template (props) {
+  template (props, state) {
     return (
       <div class='discuss' data-context={props.context}>
         <ul class='discuss__entries' ref={this.ref('entries')} />
@@ -56,19 +72,19 @@ export default class Discuss extends Component {
               type='text'
               ref={this.ref('author')}
               name='author'
-              placeholder='nom'
+              placeholder={I18n[state.lang]['author.placeholder']}
               store-value={AUTHOR}
             />
             <label
               store-text={AUTHOR}
               ref={this.ref('authorLabel')}
               // Lazy way to handle author edition once stored
-              event-click={e => AUTHOR.set(window.prompt('Éditer le nom', AUTHOR.current || 'Nouveau nom'))}
+              event-click={e => AUTHOR.set(window.prompt(I18n[state.lang]['author.edit'], AUTHOR.current || I18n[state.lang]['author.default']))}
             />
             <textarea
               ref={this.ref('message')}
               name='message'
-              placeholder='message…'
+              placeholder={I18n[state.lang]['textarea.placeholder']}
               rows='1'
               event-input={this.handleTextarea}
               event-keypress={e => e.key === 'Enter' && !e.shiftKey && this.handleSubmit(e)}
@@ -112,6 +128,7 @@ export default class Discuss extends Component {
   }
 
   handleAuthor () {
+    if (!this.mounted) return
     this.refs.authorLabel.style.setProperty('--color', stringToColor(AUTHOR.current))
   }
 

@@ -12,6 +12,11 @@
   - Abbreviations
   - Footnotes
   - Code syntax highlighting
+- **Front matter** for markdown documents
+  - `title`
+  - `description`
+  - `lang`
+  - `icon`
 - **Live chat** inside a document, using the `[[ discuss ]]` component
   - Stored as a `.log` file
   - Multiple contexts using `[[ discuss:contextName ]]`

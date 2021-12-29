@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
+const YAML = require('yaml')
 const template = require('handlebars').compile(
   fs.readFileSync(
     path.join(__dirname, '..', '..', 'src', 'templates', 'document.hbs'),
@@ -32,15 +33,18 @@ const Markdown = require('markdown-it')({
 
 module.exports = async (resource, url) => {
   const file = await fs.readFile(resource, 'utf8')
+  const metadata = await module.exports.metadata(resource, file)
+
   let html = template({
-    title: (file.match(/^#\s(.*)$/m) || [])[1] || path.basename(resource, path.extname(resource)),
     isProduction: process.env.NODE_ENV !== 'development',
-    modified: (await fs.stat(resource)).mtime,
     markdown: Markdown.render(file
       // Widont on headings
       .replace(/^(#{1,6}\s.*) +(\W+)$/gmi, '$1&nbsp;$2')
       .replace(/^(#{1,6}\s.*) +([^`\s]+)$/gmi, '$1&nbsp;$2')
-    )
+      // Remove front matter block
+      .replace(/^---(.|\n|\r)*?---/, '')
+    ),
+    ...metadata
   })
 
   html = html
@@ -51,7 +55,7 @@ module.exports = async (resource, url) => {
     .replace(/<p>(\[\[\s?discuss(:\w+)?\s?(readonly)?\s\]\])<\/p>/gi, '$1')
 
   // Replace [[discuss]] by an HTML container for its jsx Component
-  const logFile = resource.replace(path.extname(resource), '.log')
+  const logFile = resource.replace(metadata.extension, '.log')
   const log = (await fs.pathExists(logFile)) && (await fs.readJson(logFile, { throws: false }))
   for (const discuss of html.match(/(\[\[\s?discuss.*\]\])/g) || []) {
     const context = (discuss.match(/:([\w-]+)/) || [])[1] || 'log'
@@ -61,10 +65,30 @@ module.exports = async (resource, url) => {
         type='application/json'
         class='discuss-data'
         data-context='${context}'
+        ${metadata.lang ? `lang='${metadata.lang}'` : ''}
         ${readonly ? 'readonly' : ''}
       >${JSON.stringify((log && log[context]) || [])}</script>
     `)
   }
 
   return html
+}
+
+module.exports.metadata = async (resource, file = null) => {
+  if (!file) file = await fs.readFile(resource, 'utf8')
+
+  const extension = path.extname(resource)
+  const filename = path.basename(resource, extension)
+  const dirname = path.basename(path.dirname(resource))
+  const frontMatter = YAML.parse(
+    (file.match(/^---(([\s\S])+?)---/) || [])[1] || ''
+  )
+
+  return {
+    ...(frontMatter || {}),
+    extension,
+    filename,
+    dirname: dirname === path.basename(process.env.CONTENT) ? '/' : dirname,
+    lastmod: (await fs.stat(resource)).mtime
+  }
 }

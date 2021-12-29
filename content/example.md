@@ -1,12 +1,17 @@
+---
+title: Example file
+description: |
+  A test file containing examples of all markdown syntax
+lang: en
+icon: 🧪
+---
+
 # h1 Heading
 ## h2 Heading
 ### h3 Heading
 #### h4 Heading
 ##### h5 Heading
 ###### h6 Heading
-
-# Un titre suffisament long pour sauter sur plusieurs lignes
-
 
 ## Horizontal Rules
 

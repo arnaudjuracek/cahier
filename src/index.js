@@ -12,6 +12,7 @@ for (const data of Array.from(discusses)) {
     <Discuss
       context={data.dataset.context}
       readonly={data.hasAttribute('readonly')}
+      lang={data.lang}
       entries={JSON.parse(data.innerText)}
     />
   ), el => data.parentNode.insertBefore(el, data.nextSibling))

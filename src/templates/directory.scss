@@ -9,31 +9,32 @@ body[data-template=directory] {
     margin-top: calc(2 * var(--gutter));
   }
 
-  .entries a {
-    font-family: var(--font-family--monospace);
-    padding: 0.5em 0;
-    margin: 0;
-    display: block;
-    width: fit-content;
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-decoration: none;
-  }
+  .entry {
+    position: relative;
+    margin: 0.5em 0;
 
-  a:hover {
-    text-decoration: underline;
-  }
+    &.is-locked:not(:hover) {
+      opacity: 0.2;
+    }
 
-  .is-locked a {
-    color: var(--color--border);
-  }
+    a {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-decoration: none;
 
-  .is-directory a {
-    font-weight: 600;
-    &::after {
-      content: '/';
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &.is-directory a {
+      font-weight: 600;
+    }
+
+    .description {
+      font-size: var(--font-size--small);
     }
   }
 }

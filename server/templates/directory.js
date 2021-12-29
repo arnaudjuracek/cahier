@@ -7,7 +7,7 @@ const template = require('handlebars').compile(
   )
 )
 
-const CACHE = new Map()
+const { metadata } = require('./document')
 
 async function isEmpty (directory, extensions = process.env.EXTENSIONS.split(',')) {
   const entries = await fs.readdir(directory, { withFileTypes: true })
@@ -25,17 +25,6 @@ async function isEmpty (directory, extensions = process.env.EXTENSIONS.split(','
   return true
 }
 
-async function getFileTitle (filepath) {
-  const basename = path.basename(filepath)
-  if (path.extname(filepath) !== '.md') return basename
-
-  if (CACHE.has(filepath)) return CACHE.get(filepath)
-  const file = await fs.readFile(filepath, 'utf8')
-  const title = (file.match(/^#\s(.*)$/mi) || [])[1] || basename
-  CACHE.set(filepath, title)
-  return title
-}
-
 module.exports = async (resource, url) => {
   const files = []
   const directories = []
@@ -47,9 +36,8 @@ module.exports = async (resource, url) => {
       const directory = path.join(resource, entry.name)
       if (await isEmpty(directory)) continue
       directories.push({
-        name: entry.name,
-        url: entry.name,
-        title: entry.name,
+        filename: entry.name,
+        extension: '/',
         isDirectory: true,
         isLocked: await fs.pathExists(path.join(directory, '.lock'))
       })
@@ -57,12 +45,7 @@ module.exports = async (resource, url) => {
       const ext = path.extname(entry.name)
       if (!process.env.EXTENSIONS.includes(ext.substr(1))) continue
       const file = path.join(resource, entry.name)
-      files.push({
-        name: entry.name,
-        title: await getFileTitle(file),
-        url: path.basename(entry.name, ext),
-        modified: fs.statSync(file).mtime
-      })
+      files.push(await metadata(file))
     }
   }
 
