@@ -17,6 +17,7 @@
   - `description`
   - `lang`
   - `icon`
+  - `hidden`
 - **Live chat** inside a document, using the `[[ discuss ]]` component
   - Stored as a `.log` file
   - Multiple contexts using `[[ discuss:contextName ]]`

@@ -33,7 +33,7 @@ const Markdown = require('markdown-it')({
 
 module.exports = async (resource, url) => {
   const file = await fs.readFile(resource, 'utf8')
-  const metadata = await module.exports.metadata(resource, file)
+  const metadata = await module.exports.readMetadata(resource, file)
 
   let html = template({
     isProduction: process.env.NODE_ENV !== 'development',
@@ -74,7 +74,7 @@ module.exports = async (resource, url) => {
   return html
 }
 
-module.exports.metadata = async (resource, file = null) => {
+module.exports.readMetadata = async (resource, file = null) => {
   if (!file) file = await fs.readFile(resource, 'utf8')
 
   const extension = path.extname(resource)

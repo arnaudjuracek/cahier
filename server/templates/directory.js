@@ -7,7 +7,7 @@ const template = require('handlebars').compile(
   )
 )
 
-const { metadata } = require('./document')
+const { readMetadata } = require('./document')
 
 async function isEmpty (directory, extensions = process.env.EXTENSIONS.split(',')) {
   const entries = await fs.readdir(directory, { withFileTypes: true })
@@ -45,7 +45,9 @@ module.exports = async (resource, url) => {
       const ext = path.extname(entry.name)
       if (!process.env.EXTENSIONS.includes(ext.substr(1))) continue
       const file = path.join(resource, entry.name)
-      files.push(await metadata(file))
+      const metadata = await readMetadata(file)
+      if (metadata.hidden) continue
+      files.push(metadata)
     }
   }
 

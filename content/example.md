@@ -4,6 +4,7 @@ description: |
   A test file containing examples of all markdown syntax
 lang: en
 icon: 🧪
+hidden: true
 ---
 
 # h1 Heading
