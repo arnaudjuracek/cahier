@@ -138,7 +138,10 @@ pre {
 
 table {
   width: 100%;
-  font-size: var(--font-size--small);
+  font-size: 80%;
+  @include mobile {
+    font-size: 100%;
+  }
 }
 
 table, th, td {
