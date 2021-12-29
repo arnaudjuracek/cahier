@@ -74,13 +74,13 @@ app.use((err, req, res, next) => {
 wss.on('connection', async (ws, req) => {
   const url = parseurl.original(req)
   const logFile = path.join(__dirname, process.env.CONTENT, url.path + '.log')
-  await fs.ensureFile(logFile)
 
   ws.on('message', async message => {
     const entry = JSON.parse(message.toString())
     const context = entry.context
     delete entry.context
 
+    await fs.ensureFile(logFile)
     const log = await fs.readJson(logFile, { throws: false }) || {}
     log[context] = [...(log[context] || []), entry]
 
