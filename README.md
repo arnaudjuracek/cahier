@@ -1,4 +1,4 @@
-# notebook <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/285/notebook_1f4d3.png" width="100" align="right">
+# cahier <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/285/notebook_1f4d3.png" width="100" align="right">
 **Readonly markdown server w/ auth support and live chat, to assist lectures**
 
 <br>
@@ -24,7 +24,7 @@
 ### Installation
 
 ```console
-$ git clone https://github.com/arnaudjuracek/notebook && cd notebook
+$ git clone https://github.com/arnaudjuracek/cahier && cd cahier
 $ cp server/.env.example server/.env
 $ yarn install
 ```

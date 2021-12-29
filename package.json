@@ -1,5 +1,5 @@
 {
-  "name": "notebook",
+  "name": "cahier",
   "version": "1.0.1",
   "description": "readonly markdown server w/ auth support and live chat, to assist lectures",
   "scripts": {
