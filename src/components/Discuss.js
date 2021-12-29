@@ -14,7 +14,7 @@ const WebSocketServer = ({
     this.socket.send(JSON.stringify(object))
   },
   open: function () {
-    this.socket = new WebSocket(window.location.href.replace('http', 'ws'))
+    this.socket = new WebSocket(window.location.href.replace('http', 'ws').replace(/(#.*)$/, ''))
     this.socket.onopen = () => this.isClosed.set(false)
     this.socket.onclose = () => this.isClosed.set(true)
     this.socket.onmessage = message => {
