@@ -21,6 +21,11 @@ const Markdown = require('markdown-it')({
   }).value
 }).use(require('markdown-it-abbr'))
   .use(require('markdown-it-emoji'))
+  .use(require('markdown-it-attribution'), {
+    marker: '--',
+    classNameContainer: 'blockquote-with-attribution',
+    classNameAttribution: null
+  })
   .use(require('markdown-it-footnote'))
   .use(require('markdown-it-mark'))
   .use(anchor, {

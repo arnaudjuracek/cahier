@@ -10,6 +10,7 @@
   - Emojis using `:emoji:`
   - Marked text using `==mark==`
   - Abbreviations
+  - Quote attribution using `-- Attribution`
   - Footnotes
   - Code syntax highlighting
 - **Front matter** for markdown documents

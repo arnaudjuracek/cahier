@@ -16,7 +16,7 @@ h1, h2, h3, h4, h5, h6 {
   padding-right: var(--gutter);
 }
 
-table, img, ul, ol, p, pre, blockquote {
+table, img, ul, ol, p, pre, blockquote, figure {
   margin: 1em 0;
 }
 
@@ -64,10 +64,24 @@ img {
   vertical-align: bottom;
 }
 
-blockquote {
-  background: var(--color--background);
+blockquote,
+figure.blockquote-with-attribution {
+  margin: 2em auto;
   padding-left: 1em;
   border-left: 0.25em solid var(--color--border);
+  blockquote { margin: 0; }
+}
+
+figure.blockquote-with-attribution > blockquote {
+  padding-left: 0;
+  border: 0;
+}
+
+figure.blockquote-with-attribution figcaption {
+  text-align: right;
+  &::before {
+    content: '\2015';
+  }
 }
 
 h1 { line-height: var(--line-height--h1); }
