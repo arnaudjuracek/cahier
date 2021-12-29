@@ -8,7 +8,8 @@
 - **Directory listing**
 - **Markdown** files rendering, with support for:
   - Emojis using `:emoji:`
-  - Marked text using `==mark==` syntax
+  - Marked text using `==mark==`
+  - Abbreviations
   - Footnotes
   - Code syntax highlighting
 - **Live chat** inside a document, using the `[[ discuss ]]` component

@@ -20,6 +20,17 @@ table, img, ul, ol, p, pre, blockquote {
   margin: 1em 0;
 }
 
+abbr {
+  font-variant: small-caps;
+  text-transform: lowercase;
+
+  &[title] {
+    cursor: help;
+    text-decoration: none;
+    border-bottom: 0.125em dotted var(--color--border);
+  }
+}
+
 sub, sup {
   position: relative;
   font-size: small;
