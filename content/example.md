@@ -116,7 +116,7 @@ Sample text here...
 
 Syntax highlighting
 
-``` js
+```js
 var foo = function (bar) {
   return bar++;
 };
@@ -152,7 +152,7 @@ Autoconverted link https://github.com/nodeca/pica (enable linkify to see)
 
 ## Images
 
-![Relative path](images/rno_240.png)
+![Relative path](images/rno_240.png "Caption")
 
 Like links, Images also have a footnote style syntax
 

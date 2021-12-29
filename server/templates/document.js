@@ -58,6 +58,8 @@ module.exports = async (resource, url) => {
     .replace(/<p>(<sub>.*<\/sub>)<\/p>/gi, '$1')
     // Ensure [[discuss]] is not wrapped inside a <p>
     .replace(/<p>(\[\[\s?discuss(:\w+)?\s?(readonly)?\s\]\])<\/p>/gi, '$1')
+    // Prevent floating punctuation
+    .replace(/(\w)\s([:?!])/g, '$1&#8239;$2')
 
   // Replace [[discuss]] by an HTML container for its jsx Component
   const logFile = resource.replace(metadata.extension, '.log')
