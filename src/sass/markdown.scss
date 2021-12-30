@@ -28,6 +28,10 @@ abbr {
     cursor: help;
     text-decoration: none;
     border-bottom: 0.125em dotted var(--color--border);
+    h1 &, h2 &, h3 &, h4 &, h5 &, h6 & {
+      cursor: auto;
+      border: 0;
+    }
   }
 }
 
