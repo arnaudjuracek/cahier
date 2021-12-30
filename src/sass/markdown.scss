@@ -126,7 +126,7 @@ pre {
   }
 
   // Display highlighted language if any
-  code[class]::after {
+  code[class]:not([class=diff])::after {
     content: attr(class);
     position: absolute;
     top: 0;
