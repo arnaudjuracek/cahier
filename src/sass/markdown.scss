@@ -154,14 +154,6 @@ table, th, td {
   padding: 1rem;
 }
 
-td {
-  @include easing(120ms, background);
-}
-
-tr:hover td {
-  background: var(--color--highlight);
-}
-
 ol, ul {
   padding-left: calc(2 * var(--gutter));
 }
