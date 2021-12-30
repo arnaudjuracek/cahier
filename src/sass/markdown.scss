@@ -126,7 +126,10 @@ pre {
   }
 
   // Display highlighted language if any
-  code[class]:not([class=diff])::after {
+  code[class]
+    :not([class=diff])
+    :not([class=tree])
+    ::after {
     content: attr(class);
     position: absolute;
     top: 0;
@@ -137,6 +140,10 @@ pre {
     @include mobile {
       display: none;
     }
+  }
+
+  code[class=tree] {
+    line-height: 1.35;
   }
 }
 
