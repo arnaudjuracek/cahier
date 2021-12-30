@@ -1,6 +1,6 @@
 {
   "name": "cahier",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "readonly markdown server w/ auth support and live chat, to assist lectures",
   "scripts": {
     "start": "cross-env NODE_ENV=development nodemon server/index.js --watch server --watch src/templates --ext js,hbs",
