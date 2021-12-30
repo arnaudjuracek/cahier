@@ -60,6 +60,25 @@ module.exports = async (resource, url) => {
     .replace(/<p>(\[\[\s?discuss(:\w+)?\s?(readonly)?\s\]\])<\/p>/gi, '$1')
     // Prevent floating punctuation
     .replace(/([\w>])\s([:?!])/g, '$1&#8239;$2')
+    // Replace fractions
+    .replace(/\b1\/2([^\d])/g, '&frac12;$1') // ½
+    .replace(/\b1\/3([^\d])/g, '&frac13;$1') // ⅓
+    .replace(/\b2\/3([^\d])/g, '&frac23;$1') // ⅔
+    .replace(/\b1\/4([^\d])/g, '&frac14;$1') // ¼
+    .replace(/\b3\/4([^\d])/g, '&frac34;$1') // ¾
+    .replace(/\b1\/5([^\d])/g, '&frac15;$1') // ⅕
+    .replace(/\b2\/5([^\d])/g, '&frac25;$1') // ⅖
+    .replace(/\b3\/5([^\d])/g, '&frac35;$1') // ⅗
+    .replace(/\b4\/5([^\d])/g, '&frac45;$1') // ⅘
+    .replace(/\b1\/6([^\d])/g, '&frac16;$1') // ⅙
+    .replace(/\b5\/6([^\d])/g, '&frac56;$1') // ⅚
+    .replace(/\b1\/7([^\d])/g, '&frac17;$1') // ⅐
+    .replace(/\b1\/8([^\d])/g, '&frac18;$1') // ⅛
+    .replace(/\b3\/8([^\d])/g, '&frac38;$1') // ⅜
+    .replace(/\b5\/8([^\d])/g, '&frac58;$1') // ⅝
+    .replace(/\b7\/8([^\d])/g, '&frac78;$1') // ⅞
+    .replace(/\b1\/9([^\d])/g, '&#2151;$1') // ⅑
+    .replace(/\b1\/10([^\d])/g, '&#8530;$1') // ⅒
 
   // Replace [[discuss]] by an HTML container for its jsx Component
   const logFile = resource.replace(metadata.extension, '.log')
