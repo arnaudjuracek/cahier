@@ -49,7 +49,10 @@
     {{{ markdown }}}
 
     <footer role='main'>
-      <time datetime='{{ lastmod }}'>{{ date lastmod 'YYYY-MM-DD' }}</time>
+      <div class='meta'>
+        <time datetime='{{ lastmod }}'>{{ date lastmod 'YYYY-MM-DD' }}</time>
+        <div class='license'>{{ license }}</div>
+      </div>
       <a id='go-top' href='#' title='Go up'>↑</a>
     </footer>
   </main>
