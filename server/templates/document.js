@@ -14,14 +14,19 @@ const template = require('handlebars').compile(
 )
 
 const QUOTES = {
-  fr: ['«\xA0', '\xA0»', '‹\xA0', '\xA0›'],
+  fr: ['«\u00A0', '\u00A0»', '‹\u00A0', '\u00A0›'],
   en: '“”‘’'
 }
 
 const PLUGINS = [
   [anchor, {
     level: 1,
-    slugify: string => markdownToc.slugify(string.replace(/\u00A0/g, ' ')),
+    slugify: string => markdownToc.slugify(
+      string
+        .replace(/\u00A0/g, ' ')
+        .replace(/[«»‹›“”‘’]/g, '')
+        .replace(/\s+/g, ' ')
+    ),
     permalink: anchor.permalink.linkInsideHeader({
       symbol: '¶',
       class: 'anchor'
