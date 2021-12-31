@@ -126,10 +126,7 @@ pre {
   }
 
   // Display highlighted language if any
-  code[class]
-    :not([class=diff])
-    :not([class=tree])
-    ::after {
+  code[class]::after {
     content: attr(class);
     position: absolute;
     top: 0;
@@ -140,6 +137,11 @@ pre {
     @include mobile {
       display: none;
     }
+  }
+
+  code[class=diff],
+  code[class=tree] {
+    &::after { content: none; }
   }
 
   code[class=tree] {
@@ -170,7 +172,7 @@ li ul,
 li p { margin: 0; }
 
 
-// Markdown specific
+// Markdown-it specific
 
 h1, h2, h3, h4, h5, h6 {
   position: relative;
