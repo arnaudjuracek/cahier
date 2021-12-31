@@ -33,11 +33,25 @@
 <body data-template='document'>
   <main>
     <header role='main'>
-      <a id='go-parent' href='.' title='Go to parent'>{{ dirname }}</a>
-      <time datetime='{{ lastmod }}'>{{ date lastmod 'YYYY-MM-DD' }}</time>
+      <a id='go-parent' href='.'>{{ dirname }}</a>
+      <label for='toggleToc'>☰</label>
     </header>
+
+    <input type='checkbox' id='toggleToc' name='toggleToc'>
+    <ul class='toc'>
+      {{#each toc}}
+        <li data-depth='{{ this.lvl }}'>
+          <a href='#{{ this.slug }}'>{{{ this.markdown }}}</a>
+        </li>
+      {{/each}}
+    </ul>
+
     {{{ markdown }}}
-    <a id='go-top' href='#' title='Go up'>↑</a>
+
+    <footer role='main'>
+      <time datetime='{{ lastmod }}'>{{ date lastmod 'YYYY-MM-DD' }}</time>
+      <a id='go-top' href='#' title='Go up'>↑</a>
+    </footer>
   </main>
   <script src='/bundle.js'></script>
 </body>

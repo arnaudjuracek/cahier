@@ -1,5 +1,7 @@
 body[data-template=document] {
-  header[role=main] {
+  header[role=main],
+  footer[role=main] {
+    @include no-select;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -7,19 +9,54 @@ body[data-template=document] {
     font-family: var(--font-family--monospace);
     font-size: var(--font-size--small);
     color: var(--color--dim);
-  }
 
-  #go-parent, #go-top {
-    @include easing(120ms, color);
-    text-decoration: none;
-    &:not(:hover) {
-      color: var(--color--dim);
+    a, label[for=toggleToc] {
+      @include easing(120ms, color);
+      cursor: pointer;
+      text-decoration: none;
+      color: blue;
+      &:not(:hover) {
+        color: var(--color--dim);
+      }
     }
   }
 
-  #go-top {
-    float: right;
-    font-size: var(--font-size);
-    margin-bottom: var(--gutter);
+  .toc {
+    @include no-select;
+    border-bottom: 1px solid var(--color--border);
+
+    list-style: none;
+    margin: var(--gutter) 0;
+    padding: var(--gutter) 0;
+    font-size: var(--font-size--small);
+
+    li {
+      margin-bottom: 0.5em;
+      width: fit-content;
+
+      &[data-depth='1'] { display: none; }
+      &[data-depth='2'] {}
+      &[data-depth='3'] { margin-left: 2ch; }
+      &[data-depth='4'] { margin-left: 4ch; }
+      &[data-depth='5'] { margin-left: 6ch; }
+      &[data-depth='6'] { margin-left: 8ch; }
+    }
+  }
+
+  #toggleToc,
+  #toggleToc:not(:checked) + .toc {
+    display: none;
+  }
+
+  footer[role=main] {
+    margin: 10rem 0 var(--gutter) 0;
+    padding-top: calc(2 * var(--gutter));
+    border-top: 1px solid var(--color--border);
+  }
+
+  .footnotes ~ footer[role=main] {
+    border: 0;
+    margin-top: var(--gutter);
+    padding-top: var(--gutter);
   }
 }

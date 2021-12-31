@@ -1,6 +1,7 @@
 const fs = require('fs-extra')
 const path = require('path')
 const YAML = require('yaml')
+const markdownToc = require('markdown-toc')
 const template = require('handlebars').compile(
   fs.readFileSync(
     path.join(__dirname, '..', '..', 'src', 'templates', 'document.hbs'),
@@ -20,6 +21,14 @@ const Markdown = require('markdown-it')({
     language: HLJS.getLanguage(lang) ? lang : 'plaintext'
   }).value
 }).use(require('markdown-it-abbr'))
+  .use(anchor, {
+    level: 1,
+    slugify: string => markdownToc.slugify(string.replace(/\u00A0/g, ' ')),
+    permalink: anchor.permalink.linkInsideHeader({
+      symbol: '¶',
+      class: 'anchor'
+    })
+  })
   .use(require('markdown-it-emoji'))
   .use(require('markdown-it-attribution'), {
     marker: '--',
@@ -28,13 +37,6 @@ const Markdown = require('markdown-it')({
   })
   .use(require('markdown-it-footnote'))
   .use(require('markdown-it-mark'))
-  .use(anchor, {
-    level: 1,
-    permalink: anchor.permalink.linkInsideHeader({
-      symbol: '¶',
-      class: 'anchor'
-    })
-  })
 
 module.exports = async (resource, url) => {
   const file = await fs.readFile(resource, 'utf8')
@@ -49,6 +51,13 @@ module.exports = async (resource, url) => {
       // Remove front matter block
       .replace(/^---(.|\n|\r)*?---/, '')
     ),
+    toc: markdownToc(file).json.map(entry => {
+      // Remove footnotes
+      entry.content = entry.content.replace(/\[\^\d+\]/g, '')
+      entry.markdown = Markdown.render(entry.content)
+      entry.slug = markdownToc.slugify(entry.content)
+      return entry
+    }),
     ...metadata
   })
 
