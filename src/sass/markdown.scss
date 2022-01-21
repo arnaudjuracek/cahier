@@ -60,12 +60,20 @@ hr {
   margin: calc(3 * var(--gutter)) 0;
 }
 
-img {
+img, iframe {
   display: block;
   max-width: 100%;
-  height: auto;
   margin: 2em auto;
   vertical-align: bottom;
+}
+
+img {
+  height: auto;
+}
+
+iframe {
+  border: 0;
+  background: black;
 }
 
 blockquote,
