@@ -5,6 +5,8 @@ description: |
 lang: en
 icon: 🧪
 hidden: true
+author: Arnaud Juracek <arnaud@example.com> (https://arnaudjuracek.fr)
+license: CC BY-NC-SA 4.0
 ---
 
 # h1 Heading

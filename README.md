@@ -16,6 +16,7 @@
 - **Front matter** for markdown documents
   - `title`
   - `description`
+  - `author`, using the npm format (`Name <mail> (website)`)
   - `lang`
   - `icon`
   - `hidden`

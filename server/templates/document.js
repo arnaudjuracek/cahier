@@ -146,6 +146,11 @@ module.exports.readMetadata = async (resource, file = null) => {
     (file.match(/^---(([\s\S])+?)---/) || [])[1] || ''
   )
 
+  if (frontMatter.author) {
+    const [, name, email, website] = /^([^<(]+?)?[ \t]*(?:<([^>(]+?)>)?[ \t]*(?:\(([^)]+?)\)|$)/g.exec(frontMatter.author) || []
+    frontMatter.author = { name, email, website }
+  }
+
   return {
     ...(frontMatter || {}),
     extension,
