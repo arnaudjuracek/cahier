@@ -1,7 +1,5 @@
 body[data-template=authenticate] {
-  main {
-    padding-top: calc(var(--font-size) * var(--line-height) + var(--gutter));
-  }
+  padding-top: calc(var(--font-size) * var(--line-height) + var(--gutter));
 
   label {
     display: block;

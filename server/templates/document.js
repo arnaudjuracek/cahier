@@ -29,7 +29,8 @@ const PLUGINS = [
     ),
     permalink: anchor.permalink.linkInsideHeader({
       symbol: '¶',
-      class: 'anchor'
+      class: 'anchor',
+      ariaHidden: true
     })
   }],
   require('markdown-it-abbr'),

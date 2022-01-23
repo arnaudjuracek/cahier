@@ -14,31 +14,29 @@
   {{/if}}
 </head>
 <body data-template='directory'>
-  <main>
-    <h1>{{title}}</h1>
-    <ul class='entries'>
-      {{#each entries}}
-      <li
-        class='
-          entry
-          {{#if this.isDirectory}}is-directory{{/if}}
-          {{#if this.isLocked}}is-locked{{/if}}
-        '
-      >
-        <a href='{{this.filename}}' title='{{this.title}}'>
-          {{#if this.title}}
-            {{plaintext this.title}}
-          {{else}}
-            {{this.filename}}{{this.extension}}
-          {{/if}}
-        </a>
-        <div class='description'>
-          {{this.description}}
-        </div>
-      </li>
-      {{/each}}
-    </ul>
-  </main>
+  <h1>{{title}}</h1>
+  <ul class='entries'>
+    {{#each entries}}
+    <li
+      class='
+        entry
+        {{#if this.isDirectory}}is-directory{{/if}}
+        {{#if this.isLocked}}is-locked{{/if}}
+      '
+    >
+      <a href='{{this.filename}}' title='{{this.title}}'>
+        {{#if this.title}}
+          {{plaintext this.title}}
+        {{else}}
+          {{this.filename}}{{this.extension}}
+        {{/if}}
+      </a>
+      <div class='description'>
+        {{this.description}}
+      </div>
+    </li>
+    {{/each}}
+  </ul>
   <script src='/bundle.js'></script>
 </body>
 </html>

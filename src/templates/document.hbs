@@ -17,12 +17,12 @@
   {{#if icon}}
   <link rel='icon' href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>{{icon}}</text></svg>'>
   {{else}}
-  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel='apple-touch-icon' sizes='152x152' href='/apple-touch-icon.png'>
+  <link rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png'>
+  <link rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png'>
   {{/if}}
 
-  <link rel="manifest" href="/site.webmanifest">
+  <link rel='manifest' href='/site.webmanifest'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui' />
   <link rel='stylesheet' href='/highlight.css'>
 
@@ -31,40 +31,40 @@
   {{/if}}
 </head>
 <body data-template='document'>
-  <main>
-    <header role='main'>
-      <a id='go-parent' href='.'>{{dirname}}</a>
-      <label for='toggleToc'>☰</label>
-    </header>
+  <nav>
+    <a id='go-parent' href='.'>{{dirname}}</a>
+    <label for='toggleToc' role='presentation'>☰</label>
+  </nav>
 
-    <input type='checkbox' id='toggleToc' name='toggleToc'>
-    <ul class='toc'>
+  <input type='checkbox' id='toggleToc' name='toggleToc'>
+  <aside class='toc'>
+    <ul>
       {{#each toc}}
         <li data-depth='{{this.lvl}}'>
           <a href='#{{this.slug}}'>{{{this.markdown}}}</a>
         </li>
       {{/each}}
     </ul>
+  </aside>
 
-    {{{markdown}}}
+  {{{markdown}}}
 
-    <footer role='main'>
-      <div class='meta'>
-        {{#if author}}
-          <div class='author'>
-            {{#if author.website}}
-              <a href='{{author.website}}'>{{author.name}}</a>
-            {{else}}
-              {{author.name}}
-            {{/if}}
-          </div>
-        {{/if}}
-        <time datetime='{{lastmod}}'>{{date lastmod 'YYYY-MM-DD'}}</time>
-        <div class='license'>{{license}}</div>
-      </div>
-      <a id='go-top' href='#' title='Go up'>↑</a>
-    </footer>
-  </main>
+  <footer>
+    <div class='meta'>
+      {{#if author}}
+        <div class='author'>
+          {{#if author.website}}
+            <a href='{{author.website}}'>{{author.name}}</a>
+          {{else}}
+            {{author.name}}
+          {{/if}}
+        </div>
+      {{/if}}
+      <time datetime='{{lastmod}}'>{{date lastmod 'YYYY-MM-DD'}}</time>
+      <div class='license'>{{license}}</div>
+    </div>
+    <a id='go-top' href='#' title='Go up'>↑</a>
+  </footer>
   <script src='/bundle.js'></script>
 </body>
 </html>
