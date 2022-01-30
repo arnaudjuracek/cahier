@@ -151,7 +151,11 @@ module.exports.readMetadata = async (resource, file = null) => {
 
   if (frontMatter && frontMatter.author) {
     const [, name, email, website] = /^([^<(]+?)?[ \t]*(?:<([^>(]+?)>)?[ \t]*(?:\(([^)]+?)\)|$)/g.exec(frontMatter.author) || []
-    frontMatter.author = { name, email, website }
+    frontMatter.author = {
+      name: name === 'null' ? new URL(website).hostname.replace(/^www./, '') : name,
+      email,
+      website
+    }
   }
 
   return {
