@@ -98,12 +98,14 @@ module.exports = async (resource, url) => {
       .replace(/^---(.|\n|\r)*?---/, '')
     ),
     toc: markdownToc(file).json.map(entry => {
+      if (entry.lvl === 1) return
+
       // Remove footnotes
       entry.content = entry.content.replace(/\[\^\d+\]/g, '')
       entry.markdown = markdown.render(entry.content)
       entry.slug = markdownToc.slugify(entry.content)
       return entry
-    }),
+    }).filter(Boolean),
     ...metadata
   })
 

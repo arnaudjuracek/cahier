@@ -33,10 +33,11 @@
 <body data-template='document'>
   <nav>
     <a id='go-parent' href='.'>{{dirname}}</a>
-    <label for='toggleToc' role='presentation'>☰</label>
+    {{#if toc}}<label for='toggleToc' role='presentation'>☰</label>{{/if}}
   </nav>
 
   <input type='checkbox' id='toggleToc' name='toggleToc'>
+  {{#if toc}}
   <aside class='toc'>
     <ul>
       {{#each toc}}
@@ -46,6 +47,7 @@
       {{/each}}
     </ul>
   </aside>
+  {{/if}}
 
   {{{markdown}}}
 

@@ -36,7 +36,7 @@ body[data-template=document] {
       margin-bottom: 0.5em;
       width: fit-content;
 
-      &[data-depth='1'] { display: none; }
+      &[data-depth='1'] {} // Not rendered by document.js
       &[data-depth='2'] {}
       &[data-depth='3'] { margin-left: 2ch; }
       &[data-depth='4'] { margin-left: 4ch; }
