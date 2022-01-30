@@ -31,6 +31,7 @@ module.exports = async (resource, url) => {
 
   const entries = await fs.readdir(resource, { withFileTypes: true })
   for (const entry of entries) {
+    if (entry.isSymbolicLink()) continue
     if (entry.name.startsWith('.')) continue
     if (entry.isDirectory()) {
       const directory = path.join(resource, entry.name)
