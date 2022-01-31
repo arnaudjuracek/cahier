@@ -7,6 +7,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 const parseurl = require('parseurl')
 const session = require('express-session')
+const FileStore = require('session-file-store')(session)
 const WebSocket = require('ws')
 
 dotenv.config({ path: path.resolve(__dirname, '.env') })
@@ -15,8 +16,14 @@ const app = express()
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ noServer: true })
 const sessionParser = session({
-  saveUninitialized: true,
+  saveUninitialized: false,
   secret: process.env.PASSWORD,
+  store: new FileStore({
+    path: path.resolve(__dirname, process.env.SESSIONS),
+    logFn: message => console.log(new Date(), message),
+    encoding: 'utf8',
+    fileExtension: '.json'
+  }),
   resave: false,
   cookie: {
     maxAge: 365 * 24 * 60 * 60 * 1000

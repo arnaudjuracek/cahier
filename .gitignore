@@ -1,6 +1,7 @@
 build/*
 content/**/*
 !content/example.md
+server/sessions
 
 .env
 

@@ -39,6 +39,7 @@ module.exports = async (req, res, next) => {
   // Keep track of allowed accesses in session
   if (allowed) {
     req.session.allowed = Array.from(new Set([...(req.session.allowed || []), url.path]))
+    await new Promise(resolve => req.session.save(resolve))
   }
 
   // PRG pattern, see https://en.wikipedia.org/wiki/Post/Redirect/Get
