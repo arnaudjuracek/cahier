@@ -82,9 +82,13 @@ module.exports = async (resource, url) => {
     typographer: true,
     quotes: QUOTES[metadata.lang || 'en'],
     langPrefix: '',
-    highlight: (code, lang) => HLJS.highlight(code, {
-      language: HLJS.getLanguage(lang) ? lang : 'plaintext'
-    }).value
+    highlight: (code, lang) => {
+      const highlight = lang
+        ? HLJS.highlight(code, { language: HLJS.getLanguage(lang) ? lang : 'plaintext' })
+        : HLJS.highlightAuto(code)
+
+      return (highlight && highlight.value) ? highlight.value.trim() : ''
+    }
   })
 
   for (const plugin of PLUGINS) {
