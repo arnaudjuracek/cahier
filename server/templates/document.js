@@ -149,9 +149,14 @@ module.exports.readMetadata = async (resource, file = null) => {
   const extension = path.extname(resource)
   const filename = path.basename(resource, extension)
   const dirname = path.basename(path.dirname(resource))
-  const frontMatter = YAML.parse(
-    (file.match(/^---(([\s\S])+?)---/) || [])[1] || ''
-  )
+
+  let frontMatter
+  try {
+    frontMatter = YAML.parse((file.match(/^---(([\s\S])+?)---/) || [])[1] || '')
+  } catch (error) {
+    console.warn(`Error while parsing front matter block of ${file}`)
+    console.warn(error)
+  }
 
   if (frontMatter && frontMatter.author) {
     const [, name, email, website] = /^([^<(]+?)?[ \t]*(?:<([^>(]+?)>)?[ \t]*(?:\(([^)]+?)\)|$)/g.exec(frontMatter.author) || []
