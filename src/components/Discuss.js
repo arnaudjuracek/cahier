@@ -31,13 +31,13 @@ const WebSocketServer = ({
 
 const I18n = {
   fr: {
-    'author.placeholder': 'Nom',
+    'author.placeholder': 'Nom…',
     'author.edit': 'Éditer le nom',
     'author.default': 'Nouveau nom',
     'textarea.placeholder': 'message…'
   },
   en: {
-    'author.placeholder': 'Name',
+    'author.placeholder': 'Name…',
     'author.edit': 'Edit name',
     'author.default': 'New name',
     'textarea.placeholder': 'message…'
@@ -68,18 +68,16 @@ export default class Discuss extends Component {
             store-class-is-disabled={WebSocketServer.isClosed}
             store-class-has-author={AUTHOR}
           >
-            <input
-              type='text'
-              ref={this.ref('author')}
-              name='author'
-              placeholder={I18n[state.lang]['author.placeholder']}
-              store-value={AUTHOR}
-            />
             <label
               store-text={AUTHOR}
               ref={this.ref('authorLabel')}
-              // Lazy way to handle author edition once stored
-              event-click={e => AUTHOR.set(window.prompt(I18n[state.lang]['author.edit'], AUTHOR.current || I18n[state.lang]['author.default']))}
+              placeholder={I18n[state.lang]['author.placeholder']}
+              event-click={e => {
+                let prompt = window.prompt(I18n[state.lang]['author.edit'], AUTHOR.current || I18n[state.lang]['author.default'])
+                prompt = prompt.trim()
+                if (!prompt) prompt = AUTHOR.current
+                AUTHOR.set(prompt)
+              }}
             />
             <textarea
               ref={this.ref('message')}
@@ -96,7 +94,7 @@ export default class Discuss extends Component {
     )
   }
 
-  afterRender () {
+  afterMount () {
     this.update()
     this.handleAuthor()
     AUTHOR.subscribe(this.handleAuthor)
@@ -129,6 +127,7 @@ export default class Discuss extends Component {
 
   handleAuthor () {
     if (!this.mounted) return
+    if (!this.refs.authorLabel) return
     this.refs.authorLabel.style.setProperty('--color', stringToColor(AUTHOR.current))
   }
 
@@ -139,14 +138,14 @@ export default class Discuss extends Component {
 
   handleSubmit (e) {
     e.preventDefault()
-    if (!this.refs.author.value) return
-    AUTHOR.set(this.refs.author.value)
+    const author = AUTHOR.get()
+    if (!author) return
 
     if (!this.refs.message.value) return
     const entry = {
       context: this.props.context,
       timestamp: Date.now(),
-      author: sanitize(this.refs.author.value, { allowedTags: [] }),
+      author: sanitize(author, { allowedTags: [] }),
       message: sanitize(this.refs.message.value, { allowedTags: [] })
     }
 

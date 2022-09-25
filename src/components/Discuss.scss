@@ -81,7 +81,9 @@
     white-space: nowrap;
     cursor: pointer;
     color: var(--color);
-    &:empty { display: none; }
+    &:empty::after {
+      content: attr(placeholder);
+    }
   }
 
   input[type=submit] {
@@ -89,8 +91,9 @@
     cursor: pointer;
   }
 
-  form.has-author input[name=author],
   form:not(.has-author) textarea,
+  form.has-author input[name=author],
+  form:not(.has-author) input[type=submit],
   form.has-author textarea:placeholder-shown + input[type=submit] {
     display: none;
   }
