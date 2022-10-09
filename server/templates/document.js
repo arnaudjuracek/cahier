@@ -87,6 +87,11 @@ module.exports = async (resource, url) => {
         ? HLJS.highlight(code, { language: HLJS.getLanguage(lang) ? lang : 'plaintext' })
         : HLJS.highlightAuto(code)
 
+      if (lang === 'diff' && highlight && highlight.value) {
+        highlight.value = highlight.value.replace(/(<span class="hljs-(?:addition|deletion)">)[+-]\s/g, '$1')
+        console.log(highlight.value)
+      }
+
       return (highlight && highlight.value) ? highlight.value.trim() : ''
     }
   })

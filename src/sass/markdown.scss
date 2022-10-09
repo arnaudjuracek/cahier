@@ -152,6 +152,22 @@ pre {
     &::after { content: none; }
   }
 
+  code[class=diff] {
+    padding-left: 4ch;
+
+    .hljs-addition,
+    .hljs-deletion {
+      margin-left: -2ch;
+    }
+
+    .hljs-deletion {
+      @include no-select;
+    }
+
+    .hljs-addition::before { content: '+\00a0'; }
+    .hljs-deletion::before { content: '-\00a0'; }
+  }
+
   code[class=tree] {
     line-height: 1.35;
   }
