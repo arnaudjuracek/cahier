@@ -33,7 +33,7 @@ body[data-template=document] {
     }
 
     li {
-      margin-bottom: 0.5em;
+      margin-bottom: 0.2em;
       width: fit-content;
 
       &[data-depth='1'] {} // Not rendered by document.js

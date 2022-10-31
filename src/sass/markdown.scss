@@ -3,6 +3,10 @@
   background: var(--color--highlight);
 }
 
+*:target {
+  outline: 0;
+}
+
 a {
   color: blue;
   text-decoration: none;
@@ -205,13 +209,16 @@ h1, h2, h3, h4, h5, h6 {
   .anchor {
     @include easing(120ms, opacity);
     position: absolute;
-    margin-left: 0.25em;
+    top: 0;
+    left: -1.5ch;
+    padding-right: 1.5ch;
     text-decoration: none;
 
     opacity: 0;
     color: var(--color--border);
   }
 
+  &:target .anchor,
   .anchor:focus,
   &:hover .anchor {
     opacity: 1;
