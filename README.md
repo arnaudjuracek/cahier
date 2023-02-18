@@ -1,4 +1,4 @@
-# cahier <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/285/notebook_1f4d3.png" width="100" align="right">
+# cahier <img src="https://em-content.zobj.net/thumbs/240/apple/325/notebook_1f4d3.png" width="100" align="right">
 **Readonly markdown server w/ auth support and live chat, to assist lectures**
 
 <br>
